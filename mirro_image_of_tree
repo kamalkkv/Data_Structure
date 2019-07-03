@@ -1,0 +1,61 @@
+import java.util.*;
+import java.io.*;
+class Main{
+    static Node root;
+    static class Node
+    {
+        int data;
+        Node left;
+        Node right;
+        Node(int d)
+        {
+            data=d;
+            left=right=null;
+        }
+    }
+    static void inorder(Node temp)
+    {
+        if(temp!=null)
+        {
+            inorder(temp.left);
+            System.out.print(temp.data+" ");
+            inorder(temp.right);
+        }
+    }
+    static void mirrorimage(Node temp)
+    {
+        Queue<Node> q=new LinkedList<>();
+        if(temp==null)
+        return;
+        q.add(temp);
+        while(!q.isEmpty())
+        {
+            temp=q.poll();
+            if(temp.left!=null)
+            q.add(temp.left);
+            if(temp.right!=null)
+            q.add(temp.right);
+            Node t=temp.left;
+            temp.left=temp.right;
+            temp.right=t;
+        }
+    }
+public static void main(String args[])
+    {
+        root=new Node(4);
+        root.left=new Node(2);
+        root.right=new Node(6);
+        root.left.left=new Node(1);
+        root.left.right=new Node(3);
+        root.right.left=new Node(5);
+        root.right.right=new Node(7);
+        System.out.println("inorder");
+        inorder(root);
+        System.out.println();
+        mirrorimage(root);
+        System.out.println("inorder of mirror image");
+        inorder(root);
+        System.out.println();
+        
+    }
+}
