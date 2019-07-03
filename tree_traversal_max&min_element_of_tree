@@ -1,0 +1,283 @@
+import java.util.*;
+import java.io.*;
+class Main{
+    static Node root;
+    static class Node
+    {
+        int data;
+        Node left;
+        Node right;
+        Node(int d)
+        {
+            data=d;
+            left=right=null;
+        }
+    }
+    static void preorder(Node temp)
+    {
+        if(temp!=null)
+        {
+            System.out.print(temp.data+" ");
+            preorder(temp.left);
+            preorder(temp.right);
+        }
+    }
+    static void inorder(Node temp)
+    {
+        if(temp!=null)
+        {
+            inorder(temp.left);
+            System.out.print(temp.data+" ");
+            inorder(temp.right);
+        }
+    }
+    static void postorder(Node temp)
+    {
+        if(temp!=null)
+        {
+            postorder(temp.left);
+            postorder(temp.right);
+            System.out.print(temp.data+" ");
+        }
+    }
+    static void nonrecursivepreorder(Node temp)
+    {
+        Stack<Node> s=new Stack<>();
+        while(true)
+        {
+            while(temp!=null)
+            {
+                System.out.print(temp.data+" ");
+                s.push(temp);
+                temp=temp.left;
+            }
+            if(s.empty())
+            break;
+            temp=s.pop();
+            temp=temp.right;
+        }
+    }
+    static void nonrecursiveinorder(Node temp)
+    {
+        Stack<Node> s=new Stack<>();
+        while(true)
+        {
+            while(temp!=null)
+            {
+                s.push(temp);
+                temp=temp.left;
+            }
+            if(s.empty())
+            break;
+            temp=s.pop();
+            System.out.print(temp.data+" ");
+            temp=temp.right;
+        }
+    }
+    static void nonrecursivepostorder(Node temp)
+    {
+        Stack<Node> s=new Stack<>();
+        Node prev=null;
+        do{
+            while(temp!=null)
+            {
+                s.push(temp);
+                temp=temp.left;
+            }
+            while(temp==null && !s.empty())
+            {
+                temp=s.peek();
+                if(temp.right==null || temp.right==prev)
+                {
+                    System.out.print(temp.data+" ");
+                    s.pop();
+                    prev=temp;
+                    temp=null;
+                }
+                else
+                {
+                    temp=temp.right;
+                }
+            }
+        }while(!s.empty());
+    }
+    
+    
+    static void levelorder(Node temp)
+    {
+        Queue<Node> q=new LinkedList<>();
+        if(temp==null)
+        return;
+        q.add(temp);
+        while(!q.isEmpty())
+        {
+            temp=q.poll();
+            System.out.print(temp.data+" ");
+            if(temp.left!=null)
+            q.add(temp.left);
+            if(temp.right!=null)
+            q.add(temp.right);
+        }
+    }
+    static int maximum(Node temp)
+    {
+        if(temp==null)
+        return 0;
+        int max=Integer.MIN_VALUE;
+        Queue<Node> q=new LinkedList<>();
+        q.add(temp);
+        while(!q.isEmpty())
+        {
+            temp=q.poll();
+            if(max<temp.data)
+            max=temp.data;
+            if(temp.left!=null)
+            q.add(temp.left);
+            if(temp.right!=null)
+            q.add(temp.right);
+        }
+        return max;
+    }
+    static int minimum(Node temp)
+    {
+        if(temp==null)
+        return 0;
+        int min=Integer.MAX_VALUE;
+        Queue<Node> q=new LinkedList<>();
+        q.add(temp);
+        while(!q.isEmpty())
+        {
+            temp=q.poll();
+            if(min>temp.data)
+            min=temp.data;
+            if(temp.left!=null)
+            q.add(temp.left);
+            if(temp.right!=null)
+            q.add(temp.right);
+        }
+        return min;
+    }
+    static void insertinto(Node temp,int key)
+    {
+        while(temp!=null)
+        {
+            if(key<=temp.data)
+                {
+                    if(temp.left!=null){
+                        temp=temp.left;
+                        continue;
+                    }
+                    else
+                    {
+                        temp.left=new Node(key);
+                        break;
+                    }
+                }
+            else
+                {
+                    if(temp.right!=null){
+                        temp=temp.right;
+                        continue;
+                    }
+                    else
+                    {
+                        temp.right=new Node(key);
+                        break;
+                    }
+                }
+        }
+    }
+static Node insertintorecursion(Node temp,int key)
+{
+    if(temp==null)
+        temp=new Node(key);
+    else
+    {
+        if(key<=temp.data)
+            temp.left=insertintorecursion(temp.left,key);
+        else
+            temp.right=insertintorecursion(temp.right,key);
+    }
+    return temp;
+}
+static boolean searchiterative(Node temp,int key)
+{
+    while(temp!=null)
+    {
+        if(temp.data==key)
+            return true;
+        else if(key<=temp.data)
+            temp=temp.left;
+        else
+            temp=temp.right;
+    }
+    return false;
+}
+static boolean searchrecursion(Node temp,int key)
+{
+    if(temp==null)
+        return false;
+    else
+        {
+            if(temp.data==key)
+                return true;
+            else
+            {
+                return searchrecursion(temp.left,key) || searchrecursion(temp.right,key);
+                
+            }
+        }
+}
+public static void main(String args[])
+    {
+        root=new Node(4);
+        root.left=new Node(2);
+        root.right=new Node(6);
+        root.left.left=new Node(1);
+        root.left.right=new Node(3);
+        root.right.left=new Node(5);
+        root.right.right=new Node(7);
+        System.out.println("preorder");
+        preorder(root);
+        System.out.println();
+        System.out.println("inorder");
+        inorder(root);
+        System.out.println();
+        System.out.println("postorder");
+        postorder(root);
+        System.out.println();
+        System.out.println("preorder without recursive");
+        nonrecursivepreorder(root);
+        System.out.println();
+        System.out.println("inorder without recursive");
+        nonrecursiveinorder(root);
+        System.out.println();
+        System.out.println("postorder without recursive");
+        nonrecursivepostorder(root);
+        System.out.println();
+        System.out.println("levelorder");
+        levelorder(root);
+        System.out.println();
+        System.out.println("maximum element of tree");
+        System.out.println(maximum(root));
+        System.out.println("minimum element of tree");
+        System.out.println(minimum(root));
+        System.out.println("insert an element");
+        insertinto(root,9);
+        inorder(root);
+        System.out.println();
+        System.out.println("insert an element using recursion");
+        insertintorecursion(root,10);
+        inorder(root);
+        System.out.println();
+        System.out.println("searching an element");
+        boolean a=searchiterative(root,11);
+        System.out.println("element found "+a);
+        System.out.println("search using recursion");
+        boolean b=searchrecursion(root,5);
+        System.out.println("element found using recursion is "+b);
+        System.out.println();
+        System.out.println("reverse the level order element");
+        
+    }
+}
