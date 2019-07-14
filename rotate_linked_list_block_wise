@@ -1,0 +1,166 @@
+import java.util.*;
+import java.io.*;
+
+public class Main{
+    static node head;
+    static class node{
+        int data;
+        node next;
+        node(int d)
+        {
+            data=d;
+            next=null;
+        }
+    }
+    static void print(node head)
+    {
+        while(head!=null)
+        {
+            System.out.print(head.data+" ");
+            head=head.next;
+        }
+    }
+    static node rotateList(node head,int k,int d)
+    {
+        node temp=head;
+        node prev=null;
+        node prev1=null;
+        node prev2=null;
+        node t=null;
+        node h=null;
+        node t1=null;
+        node t2=null;
+        int c=0,count=0,x=0;
+        if(d>=0)
+        {
+            while(temp!=null)
+            {
+                if(c==0)
+                    prev2=temp;
+                c++;
+                prev=temp;
+                temp=temp.next;
+                if(temp!=null)
+                    t1=temp.next;
+                if(c==k-1)
+                {
+                    
+                    if(temp!=null)
+                    {
+                        temp.next=prev2;
+                        prev.next=t1;
+                    }
+                    else
+                    {
+                        temp.next=prev2;
+                        prev.next=null;
+                    }
+                    x=c;
+                    c=0;
+                    t=temp;
+                    temp=t1;
+                }
+                if(count!=0 && x==k-1)
+                {
+                    System.out.println(temp.data);
+                    t2.next=t;
+                    t2=prev;                    
+                }
+                if(count==0 && x==k-1)
+                {
+                    System.out.println(temp.data);
+                    h=t;
+                    count++;
+                    t2=prev;
+                }
+                x=0;
+            }
+            if(c!=1 && c!=0)
+            {
+                temp=t2.next;
+                t2.next=prev;
+                prev.next=temp;
+                while(temp.next!=prev)
+                    temp=temp.next;
+                temp.next=null;
+            }
+            return h;
+        }
+        else
+        {
+            while(temp!=null)
+            {
+                if(c==0)
+                    prev2=temp;
+                c++;
+                prev=temp;
+                temp=temp.next;
+                if(temp!=null)
+                    t1=temp.next;
+                if(c==k-1)
+                {
+                    
+                    if(temp!=null)
+                    {
+                        temp.next=prev2;
+                        t=prev2.next;
+                        prev2.next=t1;
+                    }
+                    else
+                    {
+                        temp.next=prev2;
+                        t=prev2.next;
+                        prev2.next=null;
+                    }
+                    x=c;
+                    c=0;
+                    temp=t1;
+                }
+                if(count!=0 && x==k-1)
+                {
+                    System.out.println(temp.data);
+                    t2.next=t;
+                    t2=prev2;                    
+                }
+                if(count==0 && x==k-1)
+                {
+                    System.out.println(temp.data);
+                    h=t;
+                    count++;
+                    t2=prev2;
+                }
+                x=0;
+            }
+            if(c!=1 && c!=0)
+            {
+                temp=t2.next;
+                t2.next=temp.next;
+                prev.next=temp;
+                temp.next=null;
+            }
+            return h;
+        }
+    }
+    public static void main(String args[])
+    {
+        head=new node(1);
+        head.next=new node(2);
+        head.next.next=new node(3);
+        head.next.next.next=new node(4);
+        head.next.next.next.next=new node(5);
+        head.next.next.next.next.next=new node(6);
+        head.next.next.next.next.next.next=new node(7);
+        head.next.next.next.next.next.next.next=new node(8);
+        head.next.next.next.next.next.next.next.next=new node(9);
+        head.next.next.next.next.next.next.next.next.next=new node(10);
+        System.out.println("linked list");
+        print(head);
+        System.out.println();
+        Scanner sc=new Scanner(System.in);
+        int k=sc.nextInt();
+        int d=sc.nextInt();
+        head=rotateList(head,k,d);
+        System.out.println("list after rotation");
+        print(head);
+    }
+}
