@@ -1,0 +1,67 @@
+public class Main{
+    static node head;
+    static class node{
+        int data;
+        node next;
+        node(int d)
+        {
+            data=d;
+            next=null;
+        }
+    }
+    static void print(node head)
+    {
+        while(head!=null)
+        {
+            System.out.print(head.data+" ");
+            head=head.next;
+        }
+    }
+    static int check_rotation(node head)
+    {
+        node prev=head;
+        node temp=prev.next;
+        int f=0;
+        int c=1;
+        while(prev!=null)
+        {
+            if(temp.data>prev.data)
+            {
+                c++;
+                prev=temp;
+                temp=temp.next;
+            }
+            else
+            {
+                f=1;
+                break;
+            }
+        }
+        if(f==1)
+        {
+            prev.next=null;
+            while(temp.next!=null)
+            {
+                temp=temp.next;
+            }
+            temp.next=head;
+            return c;
+        }
+        else
+            return 0;
+    }
+    public static void main(String args[])
+    {
+        head=new node(15);
+        head.next=new node(18);
+        head.next.next=new node(5);
+        head.next.next.next=new node(8);
+        head.next.next.next.next=new node(11);
+        head.next.next.next.next.next=new node(12);
+        System.out.println("linked list");
+        print(head);
+        System.out.println();
+        int k=check_rotation(head);
+        System.out.print("linked list rotated elements "+k);
+    }
+}
