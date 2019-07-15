@@ -1,0 +1,68 @@
+import java.util.*;
+import java.io.*;
+
+public class Main{
+    static node head;
+    static class node{
+        int data;
+        node next;
+        node(int d)
+        {
+            data=d;
+            next=null;
+        }
+    }
+    static void print(node head)
+    {
+        while(head!=null)
+        {
+            System.out.print(head.data+" ");
+            head=head.next;
+        }
+    }
+    static void insertAtmiddle(node head,int x)
+    {
+        node slow=head;
+        node fast=head;
+        node temp=head;
+        node prev=null;
+        node t=null;
+        while(temp!=null)
+        {
+            prev=slow;
+            slow=slow.next;
+            fast=fast.next.next;
+            if(fast==null)
+            {
+                prev.next=new node(x);
+                prev.next.next=slow;
+                break;
+            }
+            if(fast.next==null)
+            {
+                t=slow.next;
+                slow.next=new node(x);
+                slow.next.next=t;
+                break;
+            }
+            
+        }
+    }
+    public static void main(String args[])
+    {
+        head=new node(1);
+        head.next=new node(2);
+        head.next.next=new node(3);
+        head.next.next.next=new node(4);
+        head.next.next.next.next=new node(5);
+        //head.next.next.next.next.next=new node(6);
+        System.out.println("linked list");
+        print(head);
+        System.out.println();
+        Scanner sc=new Scanner(System.in);
+        int x=sc.nextInt();
+        System.out.println("linked list after inserting the node at middle");
+        insertAtmiddle(head,x);
+        print(head);
+    }
+}
