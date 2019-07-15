@@ -67,6 +67,7 @@ public class Main{
         int x=sc.nextInt();
         int d=sc.nextInt();
         head=insertfromend(head,x,d);
+        System.out.println("linked list after insertion");
         print(head);
     }
 }
